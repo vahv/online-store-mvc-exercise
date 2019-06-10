@@ -40,6 +40,6 @@ public class CartController {
     public String submitPurchase(Model model){
         shoppingCartService.submitPurchase();
         model.addAttribute("cartItems", shoppingCartService.getCartItems());
-        return "cart";
+        return "successfulPurchase";
     }
 }
