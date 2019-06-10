@@ -10,5 +10,7 @@ public interface ShoppingCartService {
      void removeFromCart(CartItem object);
      Set<CartItem> getCartItems();
      Double getTotal();
+     void emptyCart();
+     void submitPurchase();
 
 }

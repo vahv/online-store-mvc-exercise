@@ -32,9 +32,14 @@ public class CartController {
     @RequestMapping(value = "/removeFromCart", method = RequestMethod.POST)
     public String removeFromCart(@ModelAttribute(name = "cartItem") CartItem cartItem, Model model){
         shoppingCartService.removeFromCart(cartItem);
-        System.out.println(shoppingCartService.getCartItems());
         model.addAttribute("cartItems", shoppingCartService.getCartItems());
         model.addAttribute("total", shoppingCartService.getTotal());
+        return "cart";
+    }
+    @RequestMapping(value = "/submitPurchase", method = RequestMethod.GET)
+    public String submitPurchase(Model model){
+        shoppingCartService.submitPurchase();
+        model.addAttribute("cartItems", shoppingCartService.getCartItems());
         return "cart";
     }
 }

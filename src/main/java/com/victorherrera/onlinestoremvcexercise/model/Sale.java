@@ -14,7 +14,9 @@ public class Sale {
     private Date date;
     private Double saleAmount;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "sale")
     private Set<SoldLaptop> soldLaptops = new HashSet<>();
 
     public Long getId() {

@@ -8,13 +8,13 @@ public class SoldLaptop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double priceUnit;
-    private Long quantity;
+    private Integer quantity;
     private Double subtotal;
 
     @OneToOne
     private Laptop laptop;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Sale sale;
 
     public Long getId() {
@@ -33,11 +33,11 @@ public class SoldLaptop {
         this.priceUnit = priceUnit;
     }
 
-    public Long getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

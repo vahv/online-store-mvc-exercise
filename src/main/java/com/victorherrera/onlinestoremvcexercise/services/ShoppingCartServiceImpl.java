@@ -1,8 +1,11 @@
 package com.victorherrera.onlinestoremvcexercise.services;
 
 import com.victorherrera.onlinestoremvcexercise.model.CartItem;
+import com.victorherrera.onlinestoremvcexercise.model.Sale;
+import com.victorherrera.onlinestoremvcexercise.model.SoldLaptop;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -12,9 +15,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private Set<CartItem> cartItems = new HashSet<>();
 
     private LaptopService laptopService;
+    private SaleService saleService;
 
-    public ShoppingCartServiceImpl(LaptopService laptopService) {
+    public ShoppingCartServiceImpl(LaptopService laptopService, SaleService saleService) {
         this.laptopService = laptopService;
+        this.saleService = saleService;
     }
 
     @Override
@@ -59,5 +64,32 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             total += itr.next().getSubtotal();
         }
         return total;
+    }
+
+    @Override
+    public void emptyCart() {
+        cartItems.clear();
+    }
+
+    @Override
+    public void submitPurchase() {
+        Sale sale = new Sale();
+
+        Iterator<CartItem> itemIterator = cartItems.iterator();
+
+        while (itemIterator.hasNext()){
+            CartItem item = itemIterator.next();
+            SoldLaptop soldLaptop = new SoldLaptop();
+            soldLaptop.setLaptop(item.getLaptop());
+            soldLaptop.setPriceUnit(item.getPriceUnit());
+            soldLaptop.setQuantity(item.getQuantity());
+            soldLaptop.setSubtotal(item.getSubtotal());
+            soldLaptop.setSale(sale);
+            sale.getSoldLaptops().add(soldLaptop);
+        }
+        sale.setDate(new Date());
+        sale.setSaleAmount(getTotal());
+        saleService.save(sale);
+        emptyCart();
     }
 }
