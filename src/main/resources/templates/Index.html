@@ -11,12 +11,13 @@
         <div class="jumbotron">
             <h1 class="display-4">Tienda en línea</h1>
         </div>
-        <table>
+        <table class="table">
             <thead>
                 <th>Modelo</th>
                 <th>Marca</th>
                 <th>Precio</th>
                 <th>Cantidad</th>
+                <th></th>
             </thead>
             <tbody>
                 <tr th:each="laptop: ${laptops}">
@@ -26,8 +27,8 @@
                         <td th:text="${laptop.brand}"></td>
                         <input type="hidden" name="priceUnit" th:value="${laptop.price}">
                         <td th:text="${'$'+laptop.price}"></td>
-                        <td><input type="number" value="0" name="quantity"></td>
-                        <td><input type="submit" value="Agregar al Carrito"></td>
+                        <td><input type="number" value="1" name="quantity"></td>
+                        <td><input type="submit" value="Agregar al Carrito" class="btn btn-primary"></td>
                     </form>
                 </tr>
             </tbody>

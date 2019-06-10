@@ -2,9 +2,58 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Carrito de compras</title>
+    <link rel="stylesheet" href="webjars/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
 <body>
-    <p th:each="cartItem: ${cartItems}" th:text="${cartItem.getLaptop().getModel()}"></p>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">Carrito de Compras</h1>
+        </div>
+        <div th:if="${!cartItems.isEmpty()}">
+            <table class="table">
+                <thead>
+                <th>Modelo</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th></th>
+                </thead>
+                <tbody>
+                <tr th:each="cartItem: ${cartItems}">
+                    <form th:action="@{/removeFromCart}" th:object="${cartItem}" method="post">
+                        <input type="hidden" name="itemId" th:value="${cartItem.itemId}">
+                        <td th:text="${cartItem.laptop.model}"></td>
+                        <td th:text="${'$'+cartItem.priceUnit}"></td>
+                        <td th:text="${cartItem.quantity}"></td>
+                        <td th:text="${'$'+cartItem.subtotal}"></td>
+                        <td><input type="submit" value="Eliminar" class="btn btn-danger"></td>
+                    </form>
+                </tr>
+                </tbody>
+            </table>
+            <h2 th:text="'Total: $'+${total}"></h2>
+            <div class="row justify-content-between">
+                <div class="col">
+                    <a th:href="@{/index}" class="btn btn-primary">Agregar artículos</a>
+                </div>
+                <div class="col">
+                    <div class="row justify-content-end">
+                        <a th:href="@{/submitPurchase}" class="btn btn-primary">Completar Compra</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div th:if="${cartItems.isEmpty()}">
+            <h1 class="display-5">Carrito de compras vacio</h1>
+            <a th:href="@{/index}" class="btn btn-primary">Agregar artículos</a>
+        </div>
+    </div>
+
+    <script src="webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="webjars/popper.js/1.14.3/popper.min.js"></script>
+    <script src="webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
 </html>

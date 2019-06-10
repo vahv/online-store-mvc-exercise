@@ -9,5 +9,6 @@ public interface ShoppingCartService {
      void addToCart(CartItem object);
      void removeFromCart(CartItem object);
      Set<CartItem> getCartItems();
+     Double getTotal();
 
 }
