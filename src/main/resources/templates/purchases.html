@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tienda en linea</title>
+    <link rel="stylesheet" href="webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/index">Tienda</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Pagina Principal</a>
+                <a class="nav-item nav-link" href="/cart">Carrito de compras</a>
+                <a class="nav-item nav-link active" href="/compras">Compras<span class="sr-only">(current)</span></a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="jumbotron bg-info">
+            <h1 class="display-4 text-white">Compras</h1>
+        </div>
+        <div id="accordion">
+            <div class="card" th:each="sale: ${sales}">
+                <div class="card-header" th:id="'heading'+${sale.id}">
+                    <div class="row">
+                        <div class="col-5" th:text="'Fecha Compra: '+${sale.date}"></div>
+                        <div class="col-5" th:text="'Monto de compra: $'+${sale.saleAmount}"></div>
+                        <div class="col-2">
+                            <button class="btn btn-link" data-toggle="collapse" th:data-target="'#collapse'+${sale.id}" aria-expanded="true" th:aria-controls="'collapse'+${sale.id}">
+                                Ver Articulos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div th:id="'collapse'+${sale.id}" class="collapse" th:aria-labelledby="'heading'+${sale.id}" data-parent="#accordion">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                            <th>Modelo</th>
+                            <th>Marca</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                            </thead>
+                            <tbody>
+                            <tr th:each="soldLaptop: ${sale.soldLaptops}">
+                                <td th:text="${soldLaptop.laptop.model}"></td>
+                                <td th:text="${soldLaptop.laptop.brand}"></td>
+                                <td th:text="${soldLaptop.quantity}"></td>
+                                <td th:text="${soldLaptop.priceUnit}"></td>
+                                <td th:text="${soldLaptop.subtotal}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="webjars/popper.js/1.14.3/popper.min.js"></script>
+    <script src="webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</body>
+</html>
